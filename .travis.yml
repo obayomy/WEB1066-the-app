@@ -10,7 +10,7 @@ env:
   - CHECK_TARGET_31=monolithic/repository/cart
   - CHECK_TARGET_31=monolithic/repository/product
   - CHECK_TARGET_31=monolithic/repository/user
-  
+
 install: 
   - ./gradlew clean jar
 
@@ -24,3 +24,4 @@ after_success:
 deploy:
   provider: script
   script: echo 'WIP'
+
