@@ -3,20 +3,19 @@ jdk: oraclejdk8
 dist: trusty
 
 env:
-  - CHECK_TARGET_50=monolithic/ui
-  - CHECK_TARGET_50=monolithic/service/cart
-  - CHECK_TARGET_50=monolithic/service/user
-  - CHECK_TARGET_31=monolithic/repository/order
-  - CHECK_TARGET_31=monolithic/repository/cart
-  - CHECK_TARGET_31=monolithic/repository/product
-  - CHECK_TARGET_31=monolithic/repository/user
+  - CHECK_TARGET=COVERAGE=0.50 ./gradlew -p monolithic/ui check
+  - CHECK_TARGET=COVERAGE=0.50 ./gradlew -p monolithic/service/cart check
+  - CHECK_TARGET=COVERAGE=0.50 ./gradlew -p monolithic/service/user check
+  - CHECK_TARGET=COVERAGE=0.31 ./gradlew -p monolithic/repository/order check
+  - CHECK_TARGET=COVERAGE=0.31 ./gradlew -p monolithic/repository/cart check
+  - CHECK_TARGET=COVERAGE=0.31 ./gradlew -p monolithic/repository/product check
+  - CHECK_TARGET=COVERAGE=0.31 ./gradlew -p monolithic/repository/user check
 
 install: 
   - ./gradlew clean jar
 
 script:
-  # - COVERAGE=0.5 ./gradlew -p ./$CHECK_TARGET_50 check
-  - COVERAGE=0.31 ./gradlew -p ./$CHECK_TARGET_31 check
+  - $CHECK_TARGET
 
 after_success:
   - find . -name jacocoTestReport.csv|xargs cat|awk -F',' '{print $3" "$4" "$5}'
