@@ -16,9 +16,10 @@ install:
 
 script:
   - if ["${CHECK_TARGET}" = "monolithic/repository/order" || "${CHECK_TARGET}" = "monolithic/repository/user"]; then
-    COVERAGE=0.31
+    COVERAGE=0.31;
     else
-    COVERAGE=0.5
+    COVERAGE=0.5;
+    fi;
   - ./gradlew -p ./$CHECK_TARGET check   
 
 after_success:
