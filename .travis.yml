@@ -4,10 +4,11 @@ jdk:
 - oraclejdk8
 - oraclejdk9
 
+services: docker
+
 dist: trusty
 
 env:
-  matrix:
   - CHECK_TARGET=monolithic/ui
   - CHECK_TARGET=monolithic/service/cart
   - CHECK_TARGET=monolithic/service/user
