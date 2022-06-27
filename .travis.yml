@@ -15,7 +15,7 @@ jobs:
       name: "ui"
       install: skip
       script: 
-      -COVERAGE=0.50 ./gradlew -p ./monolithic/ui check
+      - COVERAGE=0.50 ./gradlew -p ./monolithic/ui check
 
     - stage: targets
       name: "cart service"
@@ -27,13 +27,13 @@ jobs:
       name: "user service"
       install: skip
       script: 
-      -COVERAGE=0.50 ./gradlew -p ./monolithic/service/user check          
+      - COVERAGE=0.50 ./gradlew -p ./monolithic/service/user check          
 
     - stage: targets
       name: "order repository"
       install: skip
       script: 
-      -COVERAGE=0.31 ./gradlew -p ./monolithic/repository/order check
+      - COVERAGE=0.31 ./gradlew -p ./monolithic/repository/order check
 
     - stage: targets
       name: "cart repository"
@@ -45,13 +45,13 @@ jobs:
       name: "product repository"
       install: skip
       script: 
-      -COVERAGE=0.31 ./gradlew -p ./monolithic/repository/product check            
+      - COVERAGE=0.31 ./gradlew -p ./monolithic/repository/product check            
 
     - stage: targets
       name: "user repository"
       install: skip
       script: 
-      -COVERAGE=0.31 ./gradlew -p ./monolithic/repository/user check   
+      - COVERAGE=0.31 ./gradlew -p ./monolithic/repository/user check   
 
 after_success:
   - find . -name jacocoTestReport.csv|xargs cat|awk -F',' '{print $3" "$4" "$5}'
