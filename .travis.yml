@@ -1,10 +1,12 @@
 language: java
-jdk: 
-  - oraclejdk8
-  - oraclejdk9
+services:
+- docker
+jdk:
+- oraclejdk8
+- oraclejdk9
 dist: trusty
-
 env:
+  matrix:
   - CHECK_TARGET=monolithic/ui
   - CHECK_TARGET=monolithic/service/cart
   - CHECK_TARGET=monolithic/service/user
@@ -12,20 +14,16 @@ env:
   - CHECK_TARGET=monolithic/repository/cart
   - CHECK_TARGET=monolithic/repository/product
   - CHECK_TARGET=monolithic/repository/user
-
-install: 
-  - ./gradlew clean jar
-
+  global:
+    secure: mI3kJ9upx7aQ1b8rqYCCInb0GNl2AQxHaZZPEoKdXp0ure7YHmRtFW1lKlQDHINMpc17VmK6WF7g9yDcSRPBzTgdNTSimduK0oZoDt6pKy3i/LUIVDpE2nUfN/GuaIVeIWsVN2jGb8VFcGQEucDUEo+MEB8z5sw9rBbVkO/JMmAbnWrnbwHWYUjJTYdH/7KsKETwe6BDmLTrCDsNSDiueQLxSwWCV+c8ya3PPluhceYNiFWfBttY6axxjq6JlPpCHHWC92taRxcgCvZcIa3wDv+mEjsjvWhVtv5XwaJ/bQz4Fqjen+2pFTQFCk6x8Y0b4xsJf1fftURw0/sk1cAJJ+sDhsxf+3uPg26HLDA4I1OR+lAaQhGx6ft97rMwLaDGtzc7k2Wy3/oGrqJnsw5zja/7gkSpqetANBS5ntt/wd1g/Csb/NL65hmanYDoVJRi1PO/O1cfWIkAlNjSFbzOI6R6H+56V6+KI44Cghjxd9loCKBatlYRKSWdgUm1HuzQW629EdcgKQ0GdRFNqXBaiKPbcx6VSYl8A5he9nK/LKH/FGEE/CguImSTI87W82pQg5+bkGe639vfK6+fOI0p96qqw3DvvxNe+C2GeNS0ueT6eWjA7bdPCPHenBvXBBiwUDlXXDdeiR7HoACJMStyQ7pCIWc2kJeDodcLZNCYs9k=
+install:
+- "./gradlew clean jar"
 script:
-  - if [[ $CHECK_TARGET == "monolithic/repository/order" || $CHECK_TARGET == "monolithic/repository/user" ]]; then
-    COVERAGE=0.31 ./gradlew -p ./$CHECK_TARGET check;
-    else
-    COVERAGE=0.5 ./gradlew -p ./$CHECK_TARGET check;
-    fi
-
+- if [[ $CHECK_TARGET == "monolithic/repository/order" || $CHECK_TARGET == "monolithic/repository/user"
+  ]]; then COVERAGE=0.31 ./gradlew -p ./$CHECK_TARGET check; else COVERAGE=0.5 ./gradlew
+  -p ./$CHECK_TARGET check; fi
 after_success:
-  - find . -name jacocoTestReport.csv|xargs cat|awk -F',' '{print $3" "$4" "$5}'
-
+- find . -name jacocoTestReport.csv|xargs cat|awk -F',' '{print $3" "$4" "$5}'
 deploy:
   provider: script
-  script: echo 'WIP'
+  script: bash -c "echo \"${DOCKER_PASSWORD}\" | docker login --username \"${DOCKER_LOGIN}\" --password-stdin"
