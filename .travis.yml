@@ -2,15 +2,6 @@ language: java
 jdk: oraclejdk8
 dist: trusty
 
-env:
-  - CHECK_TARGET_50=monolithic/ui
-  - CHECK_TARGET_50=monolithic/service/cart
-  - CHECK_TARGET_50=monolithic/service/user
-  - CHECK_TARGET_31=monolithic/repository/order
-  - CHECK_TARGET_31=monolithic/repository/cart
-  - CHECK_TARGET_31=monolithic/repository/product
-  - CHECK_TARGET_31=monolithic/repository/user
-  
 script:
   - ./gradlew clean jar
 
