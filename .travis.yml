@@ -15,7 +15,7 @@ install:
   - ./gradlew clean jar
 
 script:
-  - if [[ $CHECK_TARGET = "monolithic/repository/order" || $CHECK_TARGET = "monolithic/repository/user" ]]; then
+  - if [[ $CHECK_TARGET == "monolithic/repository/order" || $CHECK_TARGET == "monolithic/repository/user" ]]; then
     COVERAGE=0.31 ./gradlew -p ./$CHECK_TARGET check;
     else
     COVERAGE=0.5 ./gradlew -p ./$CHECK_TARGET check;
