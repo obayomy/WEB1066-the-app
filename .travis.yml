@@ -23,6 +23,7 @@ before_deploy:
   - ./gradlew test jacocoTestCoverageVerification
 
 deploy:
-  branch: check-coverage
   provider: script
   script: echo 'WIP'
+  on:
+    branch: check-coverage
