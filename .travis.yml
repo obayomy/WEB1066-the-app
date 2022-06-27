@@ -15,7 +15,7 @@ install:
   - ./gradlew clean jar
 
 script:
-  - COVERAGE=0.5 ./gradlew -p ./$CHECK_TARGET_50 check
+  # - COVERAGE=0.5 ./gradlew -p ./$CHECK_TARGET_50 check
   - COVERAGE=0.31 ./gradlew -p ./$CHECK_TARGET_31 check
 
 after_success:
