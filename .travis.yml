@@ -5,24 +5,26 @@ jdk:
 dist: trusty
 
 env:
-  - COVERAGE=0.31
+  - CHECK_TARGET=monolithic/ui
+  - CHECK_TARGET=monolithic/service/cart
+  - CHECK_TARGET=monolithic/service/user
+  - CHECK_TARGET=monolithic/repository/order
+  - CHECK_TARGET=monolithic/repository/cart
+  - CHECK_TARGET=monolithic/repository/product
+  - CHECK_TARGET=monolithic/repository/user
+
 install: 
   - ./gradlew clean jar
 
 script:
-  - ./gradlew test
-  # Run ANSIBLE checks
-  # - ANSIBLE0008: Disabled for use of sudo warnings - to address
-  # - ANSIBLE0011: Disabled for all tasks which should be named
-  # - ANSIBLE0012: Disabled (should not change if nothings needs doing) - to address
-  # - ANSIBLE0013: Disabled - few uses of shell commands - to address
-  # - find vagrant/provision -name "*.yml" -exec ansible-lint -x ANSIBLE008,ANSIBLE0011,ANSIBLE0012,ANSIBLE0013  {} +
-after_success:
-  - ./gradlew jacocoTestReport
-  - find . -name jacocoTestReport.csv|xargs cat|awk -F',' '{print $3" "$4" "$5}'
+  - if [[ $CHECK_TARGET == "monolithic/repository/order" || $CHECK_TARGET == "monolithic/repository/user" ]]; then
+    COVERAGE=0.31 ./gradlew -p ./$CHECK_TARGET check;
+    else
+    COVERAGE=0.5 ./gradlew -p ./$CHECK_TARGET check;
+    fi
 
-before_deploy:
-  - ./gradlew test jacocoTestCoverageVerification
+after_success:
+  - find . -name jacocoTestReport.csv|xargs cat|awk -F',' '{print $3" "$4" "$5}'
 
 deploy:
   provider: script
