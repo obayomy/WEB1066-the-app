@@ -39,7 +39,7 @@ jobs:
       name: "cart repository"
       install: skip
       script: 
-      -COVERAGE=0.31 ./gradlew -p ./monolithic/repository/cart check
+      - COVERAGE=0.31 ./gradlew -p ./monolithic/repository/cart check
 
     - stage: targets
       name: "product repository"
